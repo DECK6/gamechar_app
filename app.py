@@ -1,13 +1,14 @@
 import streamlit as st
 import subprocess
 import os
+import importlib.util
 
-st.set_page_config(page_title="사진으로 게임 캐릭터 만들기", page_icon="🎮", layout="wide")
+st.set_page_config(page_title="로딩 중...", page_icon="⏳", layout="wide")
 
 # GitHub Personal Access Token과 리포지토리 URL 설정
 GITHUB_TOKEN = st.secrets["github_token"]
-REPO_URL = "https://github.com/DECK6/gamechar.git"  # 각 리포지토리에 맞게 변경
-REPO_DIR = "gamechar"  # 각 리포지토리에 맞게 변경
+REPO_URL = "https://github.com/DECK6/gamechar.git"
+REPO_DIR = "gamechar"
 
 # 디버깅 메시지 추가
 st.write("Starting the clone process...")
@@ -30,6 +31,12 @@ else:
     
     # 스트림릿 애플리케이션 로드
     try:
-        import app  # 실제 스트림릿 애플리케이션 파일을 모듈로 가져오기
+        # app.py 파일 경로 설정
+        app_path = os.path.join(REPO_DIR, 'app.py')
+
+        # 모듈로서 app.py 파일 불러오기
+        spec = importlib.util.spec_from_file_location("app", app_path)
+        app = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(app)
     except Exception as e:
         st.error(f"Failed to run the application: {e}")
