@@ -7,6 +7,8 @@ GITHUB_TOKEN = st.secrets["github_token"]
 REPO_URL = "https://github.com/DECK6/gamechar.git"  # 각 리포지토리에 맞게 변경
 REPO_DIR = "gamechar"  # 각 리포지토리에 맞게 변경
 
+st.set_page_config(page_title="사진으로 게임 캐릭터 만들기", page_icon="🎮", layout="wide")
+
 # 디버깅 메시지 추가
 st.write("Starting the clone process...")
 
