@@ -4,15 +4,30 @@ import os
 
 # GitHub Personal Access Token과 리포지토리 URL 설정
 GITHUB_TOKEN = st.secrets["github_token"]
-REPO_URL = "https://github.com/DECK6/gamechar.git"
-REPO_DIR = "gamechar"
+REPO_URL = "https://github.com/DECK6/gamechar.git"  # 각 리포지토리에 맞게 변경
+REPO_DIR = "gamechar"  # 각 리포지토리에 맞게 변경
+
+# 디버깅 메시지 추가
+st.write("Starting the clone process...")
 
 # Git 클론 명령어 실행
 clone_cmd = f"git clone https://{GITHUB_TOKEN}@github.com/DECK6/gamechar.git {REPO_DIR}"
-subprocess.run(clone_cmd, shell=True, check=True)
+result = subprocess.run(clone_cmd, shell=True, check=False, capture_output=True, text=True)
 
-# 클론한 디렉토리로 이동
-os.chdir(REPO_DIR)
+# 디버깅 메시지 추가
+st.write(f"Clone command output: {result.stdout}")
+st.write(f"Clone command error (if any): {result.stderr}")
 
-# 스트림릿 애플리케이션 로드
-exec(open("app.py").read())  # 실제 스트림릿 애플리케이션 파일 이름으로 변경
+if result.returncode != 0:
+    st.error("Failed to clone the repository.")
+else:
+    st.write("Repository cloned successfully.")
+    # 클론한 디렉토리로 이동
+    os.chdir(REPO_DIR)
+    st.write("Changed directory to cloned repo.")
+    
+    # 스트림릿 애플리케이션 로드
+    try:
+        exec(open("app.py").read())  # 실제 스트림릿 애플리케이션 파일 이름으로 변경
+    except Exception as e:
+        st.error(f"Failed to run the application: {e}")
