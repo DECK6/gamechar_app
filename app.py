@@ -9,8 +9,6 @@ GITHUB_TOKEN = st.secrets["github_token"]
 REPO_URL = "https://github.com/DECK6/gamechar.git"  # 각 리포지토리에 맞게 변경
 REPO_DIR = "gamechar"  # 각 리포지토리에 맞게 변경
 
-
-
 # 디버깅 메시지 추가
 st.write("Starting the clone process...")
 
@@ -32,6 +30,6 @@ else:
     
     # 스트림릿 애플리케이션 로드
     try:
-        exec(open("app.py").read())  # 실제 스트림릿 애플리케이션 파일 이름으로 변경
+        import app  # 실제 스트림릿 애플리케이션 파일을 모듈로 가져오기
     except Exception as e:
         st.error(f"Failed to run the application: {e}")
