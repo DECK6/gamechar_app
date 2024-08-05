@@ -32,7 +32,7 @@ else:
     # 스트림릿 애플리케이션 로드
     try:
         # app.py 파일 경로 설정
-        app_path = os.path.join(REPO_DIR, 'app.py')
+        app_path = os.path.join(os.getcwd(), 'app.py')  # 현재 디렉토리에 app.py가 있다고 가정
 
         # 모듈로서 app.py 파일 불러오기
         spec = importlib.util.spec_from_file_location("app", app_path)
